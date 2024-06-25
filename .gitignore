@@ -1,0 +1,35 @@
+# Ignore Mac system files
+.DS_Store
+
+# Ignore Linux system files
+*~
+
+# Ignore Node.js dependencies
+node_modules/
+
+# Ignore Composer dependencies
+vendor/
+
+# Ignore environment variables
+.env
+
+# Ignore writable directory
+writable/
+
+# Ignore IDE specific files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore log files and databases
+*.log
+*.sql
+*.sqlite
+
+# Ignore coverage reports
+coverage/
+
+# Ignore CodeIgniter 4 specific files
+public/hot/
+public/storage/
