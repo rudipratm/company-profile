@@ -45,5 +45,6 @@
         <script src="<?= base_url('admin-assets/js/datatables-simple-demo.js'); ?>"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <?= show_sweetalert(); ?>
+        <?= $this->renderSection('script'); ?>
     </body>
 </html>
