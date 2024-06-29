@@ -11,6 +11,7 @@ use Psr\Log\LoggerInterface;
 
 // load model
 use App\Models\KategoriModel;
+use App\Models\ProdukModel;
 
 /**
  * Class BaseController
@@ -38,7 +39,7 @@ abstract class BaseController extends Controller
      *
      * @var list<string>
      */
-    protected $helpers = [];
+    protected $helpers = ["form"];
 
     /**
      * Be sure to declare properties for any property fetch you initialized.
@@ -58,5 +59,6 @@ abstract class BaseController extends Controller
 
         // E.g.: $this->session = \Config\Services::session();
         $this->KategoriModel = new KategoriModel();
+        $this->ProdukModel = new ProdukModel();
     }
 }
