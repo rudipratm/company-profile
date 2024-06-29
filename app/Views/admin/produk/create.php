@@ -31,7 +31,12 @@
                                             <select name="kategori" class="form-control <?= session('errors.kategori') ? 'is-invalid' : ''; ?>">
                                                 <option value="">--- Pilih Data ---</option>
                                                 <?php foreach($kategori as $k){ ?>
-                                                    <option value="<?= $k->slug_kategori; ?>"><?= $k->nama_kategori; ?></option>
+                                                    <?php if(old('kategori') == $k->slug_kategori){
+                                                        $cek = "selected";
+                                                    }else{
+                                                        $cek = "";
+                                                    } ?>
+                                                    <option value="<?= $k->slug_kategori; ?>" <?= $cek; ?>><?= $k->nama_kategori; ?></option>
                                                 <?php } ?>
                                             </select>
                                             <?php if (session('errors.kategori')){ ?>
@@ -45,14 +50,20 @@
                                         <label>Deskripsi Produk</label>
                                         <textarea name="deskripsi" class="form-control <?= session('errors.deskripsi') ? 'is-invalid' : ''; ?>"><?= old('deskripsi'); ?></textarea>
                                         <?php if (session('errors.deskripsi')){ ?>
-                                                <div class="invalid-feedback">
-                                                    Harap mengisikan deskripsi produk.
-                                                </div>
-                                            <?php } ?>
+                                            <div class="invalid-feedback">
+                                                Harap mengisikan deskripsi produk.
+                                            </div>
+                                        <?php } ?>
                                     </div>
                                     <div class="mb-3">
                                         <label>Gambar Produk</label>
-                                        <input type="file" name="gambar" class="form-control" value="<?= old('gambar'); ?>">
+                                        <input type="file" name="gambar" class="form-control <?= session('errors.gambar') ? 'is-invalid' : ''; ?>" id="gambar" value="<?= old('gambar'); ?>" onchange="previewImg()">
+                                        <?php if (session('errors.gambar')){ ?>
+                                            <div class="invalid-feedback">
+                                                <?= session('errors.gambar'); ?>
+                                            </div>
+                                        <?php } ?>
+                                        <img class="preview-img mt-2" width="256px" />
                                     </div>
                                     <div class="justify-content-end d-flex">
                                         <button type="submit" class="btn btn-primary btn-sm">Tambah</button>
@@ -61,4 +72,20 @@
                             </div>
                         </div>
                     </div>
+<?= $this->endSection(); ?>
+
+<?= $this->section('script'); ?>
+                    <script>
+                        function previewImg(){
+                            const gambar = document.querySelector('#gambar');
+                            const imgPreview = document.querySelector('.preview-img');
+
+                            const fileGambar = new FileReader();
+
+                            fileGambar.readAsDataURL(gambar.files[0]);
+                            fileGambar.onload = function(e){
+                                imgPreview.src = e.target.result;
+                            }
+                        }
+                    </script>
 <?= $this->endSection(); ?>
