@@ -30,26 +30,35 @@ class ProdukController extends BaseController
         $rules = [
             'nama' => 'required',
             'kategori' => 'required',
-            'deskripsi' => 'required'
+            'deskripsi' => 'required',
+            'gambar' => 'uploaded[gambar]|max_size[gambar,2048]|mime_in[gambar,image/png,image/jpeg]|ext_in[gambar,png,jpg,gif]|is_image[gambar]'
         ];
         $data = $this->request->getPost(array_keys($rules));
         if (! $this->validateData($data, $rules)) {
-            store_sweetalert('error','Gagal','Terdapat kolom yang kosong!');
+            store_sweetalert('error','Gagal','Gagal memvalidasi aksi!');
             return redirect()->back()->withInput()->with('errors', $validation->getErrors());
         }
 
         $nama = esc($this->request->getPost('nama'));
         $kategori = esc($this->request->getPost('kategori'));
         $deskripsi = esc($this->request->getPost('deskripsi'));
-        $gambar = esc($this->request->getPost('gambar'));
         $slug = url_title($nama, '-', true);
+
+        //unggah gambar
+        $file = $this->request->getFile('gambar');
+
+        //memberikan nama unik ke file gambar
+        $namaFile = $file->getRandomName();
+
+        //pindahkan gambar
+        $file->move(WRITEPATH. 'uploads/produk/', $namaFile);
 
         $data = [
             'slug_produk' => $slug,
             'kategori_slug' => $kategori,
             'nama_produk' => $nama,
             'deskripsi' => $deskripsi,
-            'gambar_produk' => $gambar
+            'gambar_produk' => $namaFile
         ];
         $this->ProdukModel->insert($data);
         
